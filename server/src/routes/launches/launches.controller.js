@@ -10,7 +10,7 @@ const validateLaunchProperties = (launch) => {
   if (!launch.mission) errors.push('Missing mission property');
   if (!launch.rocket) errors.push('Missing rocket property');
   if (!launch.launchDate) errors.push('Missing launchDate property');
-  if (!launch.destination) errors.push('Missing destination property');
+  if (!launch.target) errors.push('Missing target property');
 
   return errors.length ? errors : false;
 }

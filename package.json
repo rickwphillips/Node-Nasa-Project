@@ -1,9 +1,8 @@
 {
-  "name": "node-validator",
+  "name": "node-nasa-launch-project",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "install-server": "npm install --prefix server",
     "install-client": "npm install --prefix client",
