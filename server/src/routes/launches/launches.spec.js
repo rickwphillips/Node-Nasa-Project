@@ -7,18 +7,19 @@ describe('Test GET /launches', function () {
       .get('/launches')
       .expect('Content-Type', /json/)
       .expect(200);
-  })
+  });
 });
 
 describe('Test POST /launches', () => {
-  test('It should response with 201 created', async () => {
-    const testLaunchData = {
-      mission: 'USS Ricks Starship',
-      rocket: 'RWP 66888-46',
-      target: 'Kepler-186 f',
-    }
+  const testLaunchData = {
+    mission: 'USS Ricks Starship',
+    rocket: 'RWP 66888-46',
+    target: 'Kepler-186 f',
+  };
 
-    const launchDate = 'January 13, 2076';
+  const launchDate = 'January 13, 2076';
+
+  test('It should response with 201 created', async () => {
 
     const response = await request(app)
       .post('/launches')
@@ -35,6 +36,28 @@ describe('Test POST /launches', () => {
     expect(responseDate).toBe(requestDate);
     expect(response.body).toMatchObject(testLaunchData);
   });
-  test('It should catch missing required property', () => {});
-  test('It should catch invalid dates', () => {});
-})
+
+  test('It should catch missing required property and respond 400', async () => {
+    const response = await request(app)
+      .post('/launches')
+      .send(testLaunchData)
+      .expect('Content-Type', /json/)
+      .expect(400);
+
+    expect(response.body).toStrictEqual({
+      error: 'Invalid or missing date property'
+    });
+  });
+
+  test('It should catch invalid dates and respond 400', async () => {
+    const response = await request(app)
+      .post('/launches')
+      .send({ ...testLaunchData, launchDate: 'fooBar' })
+      .expect('Content-Type', /json/)
+      .expect(400);
+
+    expect(response.body).toStrictEqual({
+      error: 'Invalid or missing date property'
+    });
+  });
+});
